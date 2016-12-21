@@ -1,0 +1,5 @@
+check process init_firewall
+  with pidfile /var/vcap/sys/run/init_firewall/pid
+  start program "/var/vcap/jobs/init_firewall/bin/ctl start"
+  stop program "/var/vcap/jobs/init_firewall/bin/ctl stop"
+  group vcap

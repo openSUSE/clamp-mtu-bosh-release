@@ -1,0 +1,9 @@
+---
+name: init_firewall
+
+templates:
+  ctl.erb: bin/ctl
+
+packages: []
+
+properties: {}

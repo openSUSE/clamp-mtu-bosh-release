@@ -1,0 +1,51 @@
+---
+name: firewall-mtu-deployment
+director_uuid: 93c01d2d-a2a5-49d8-8d02-389fd223a9cf
+releases:
+- {name: clamp-mtu-bosh-release, version: latest}
+
+
+resource_pools:
+- name: common-resource-pool
+  network: public
+  size: 1
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+  cloud_properties:
+    name: random
+
+networks:
+- name: public
+  type: manual
+  subnets:
+  - range: 10.244.1.0/24
+    gateway: 10.244.1.1
+    static:
+      - 10.244.1.2
+    cloud_properties:
+      name: random
+
+compilation:
+  workers: 1
+  network: public
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: m1.small
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 15000-30000
+  update_watch_time: 15000-300000
+
+
+jobs:
+- name: firewall_setup
+  template: init_firewall
+  instances: 1
+  release: clamp-mtu-bosh-release
+  resource_pool: common-resource-pool
+  networks:
+    - name: public
+
