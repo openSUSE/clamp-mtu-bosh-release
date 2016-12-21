@@ -4,7 +4,7 @@ RUN_DIR=/var/vcap/sys/run/init_firewall
 PIDFILE=${RUN_DIR}/pid
 
 case $1 in
-	start)
+  start)
     mkdir -p $RUN_DIR
     echo $$ > $PIDFILE
 
@@ -15,11 +15,12 @@ case $1 in
       iptables -C FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu 2> /dev/null || \
         iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
     done
-		;;
-	stop)
+    ;;
+  stop)
     kill -0 `cat $PIDFILE`
-		iptables -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-		;;
-	*)
-		echo "Usage: ctl {start|stop}" ;;
+    iptables -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+    rm -f $PIDFILE
+    ;;
+  *)
+    echo "Usage: ctl {start|stop}" ;;
 esac
