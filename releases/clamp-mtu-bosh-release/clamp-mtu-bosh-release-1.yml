@@ -1,0 +1,11 @@
+---
+packages: []
+jobs:
+- name: init_firewall
+  version: 1071532e3490b5937ed541dd426a46ff29bcb902
+  fingerprint: 1071532e3490b5937ed541dd426a46ff29bcb902
+  sha1: a9a197e4b0afd9da6e699b673318ad4172d56aac
+commit_hash: d131bbe8
+uncommitted_changes: true
+name: clamp-mtu-bosh-release
+version: '1'
